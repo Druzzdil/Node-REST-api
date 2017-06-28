@@ -6,7 +6,8 @@ MongoClient.connect('mongodb://localhost:27017/TodoApp', (err, db )=> {
         return console.log('unable to mongodb server');
     }
     db.collection('Todos').find({
-        text : "the night is beautifull"
+        text : "the night is beautifull",
+        number: 99
     }).count({text: "walk the cat"}).then(function(count) {
         console.log(count, 'number');
     });
