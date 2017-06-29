@@ -1,72 +1,32 @@
-let mongoose = require('mongoose');
-mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost:27017/TodoApp');
+// let mongoose = require('mongoose');
+// mongoose.Promise = global.Promise;
+// mongoose.connect('mongodb://localhost:27017/TodoApp');
+let {mongoose} = require('./db/mongoose');
+let {Todo} = require('./models/todo');
+let {User} = require('./models/users');
 
+const express = require('express');
+const port = process.env.PORT || 3000;
+let app = express();
+const bodyParser = require('body-parser');
 
+// hbs.registerPartials(__dirname + '/views/partials');
+// app.set('view engine', 'html');
+// app.use('/assets/', express.static('assets'));
+// app.use('/public/', express.static('public'));
 
-let  Todo = mongoose.model('Todo', {
-    text: {
-        type: String,
-        required: true,
-        minlength : 1,
-        trim: true
-    },
-    completed: {
-        type: Boolean,
-        default: false
-    },
-    completedAt: {
-        type: Number,
-        default: null
-    }
+app.get('/', (req, res)=>{
+    res.status(200).send("server is up and running");
 });
 
-let newTodo = new Todo({text: '    pies'});
-
-
-newTodo.save().then((doc)=>{
-    console.log(' save todo', JSON.stringify(doc, undefined, 2));
-}, (err)=>{
-    console.log('unable to save todo', err);
+app.get('/users', (req, res)=>{
+    res.status(200).send({
+        age: 30,
+        name: 'dune'
+    });
 });
 
-let validateEmail = function(email) {
-    let re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    return re.test(email);
-};
-
-function reg(email){
-    let ara = ['end is night'];
-    let res = email.test(ara);
-    console.log(res, 'tested regex');
-}
-
-
-let User = mongoose.model('User', {
-    email: {
-        type: String,
-        required: true,
-        minlength :3,
-        trim: true,
-        unique: true,
-        validate: [validateEmail, 'Please fill a valid email address'],
-        match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address']
-    }
+app.listen(port, () => {
+    console.log(`Server is up on port ${port}`);
 });
-
-let newUser = new User({
-   email: '  staniszewski8.apd  ',
-});
-
-
-
-newUser.save().then((docs)=>{
-    console.log(JSON.stringify(docs, undefined, 2))
-}, (err)=>{
-    console.log('unable to save email address', err)
-});
-
-
-
-
 
