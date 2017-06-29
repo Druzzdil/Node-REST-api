@@ -19,13 +19,13 @@ let  Todo = mongoose.model('Todo', {
     }
 });
 
-let newTodo = new Todo({text: '    pies'});
-
-
-newTodo.save().then((doc)=>{
-    console.log(' save todo', JSON.stringify(doc, undefined, 2));
-}, (err)=>{
-    console.log('unable to save todo', err);
-});
+// let newTodo = new Todo({text: '    pies'});
+//
+//
+// newTodo.save().then((doc)=>{
+//     console.log(' save todo', JSON.stringify(doc, undefined, 2));
+// }, (err)=>{
+//     console.log('unable to save todo', err);
+// });
 
 module.export = {Todo};

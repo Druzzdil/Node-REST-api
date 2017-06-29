@@ -16,14 +16,14 @@ let User = mongoose.model('User', {
     }
 });
 
-let newUser = new User({
-    email: 'staniszewski86@gmail.com',
-});
-
-newUser.save().then((docs)=>{
-    console.log(JSON.stringify(docs, undefined, 2))
-}, (err)=>{
-    console.log('unable to save email address', err)
-});
+// let newUser = new User({
+//     email: 'staniszewski86@gmail.com',
+// });
+//
+// newUser.save().then((docs)=>{
+//     console.log(JSON.stringify(docs, undefined, 2))
+// }, (err)=>{
+//     console.log('unable to save email address', err)
+// });
 
 module.exports = {User};
