@@ -15,15 +15,4 @@ let User = mongoose.model('User', {
         match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address']
     }
 });
-
-// let newUser = new User({
-//     email: 'staniszewski86@gmail.com',
-// });
-//
-// newUser.save().then((docs)=>{
-//     console.log(JSON.stringify(docs, undefined, 2))
-// }, (err)=>{
-//     console.log('unable to save email address', err)
-// });
-
 module.exports = {User};
