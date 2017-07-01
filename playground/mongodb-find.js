@@ -8,7 +8,7 @@ MongoClient.connect('mongodb://localhost:27017/TodoApp', (err, db )=> {
     db.collection('Todos').find({
         text : "the night is beautifull",
         number: 99
-    }).count({text: "walk the cat"}).then(function(count) {
+    }).count({text: "walk the cat"}).then((count) =>{
         console.log(count, 'number');
     });
 
