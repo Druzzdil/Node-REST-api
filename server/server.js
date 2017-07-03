@@ -1,13 +1,14 @@
-// let mongoose = require('mongoose');
-// mongoose.Promise = global.Promise;
-// mongoose.connect('mongodb://localhost:27017/TodoApp');
+let mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
+mongoose.connect('mongodb://localhost:27017/TodoApp');
 
 const express = require('express');
-let {mongoose} = require('./db/mongoose');
+
 let {Todo} = require('./models/todo');
 let {User} = require('./models/users');
 const {ObjectID} = require('mongodb');
-
+const _ = require('lodash');
+const port = process.env.PORT || 3000;
 // const port = process.env.PORT || 3000;
 let app = express();
 const bodyParser = require('body-parser');
@@ -42,7 +43,7 @@ app.get('/todos', function(req,res){
 
 app.get('/todos/:id', (req,res)=>{
   let id = req.params.id;
-  if (!ObjectID.isValid) {
+  if (!ObjectID.isValid(id)) {
       return res.status(404).send();
   };
   Todo.findById(id).then((todo) => {
@@ -56,9 +57,27 @@ app.get('/todos/:id', (req,res)=>{
   });
 });
 
+//delete method
 
-app.listen(3000, () => {
-    console.log(`Server is up on port 3000`);
+
+app.delete('/todos/:id', (req, res)=>{
+    let id = req.params.id;
+    if (!ObjectID.isValid(id)) {
+        return res.status(404).send();
+    };
+    Todo.findByIdAndRemove(id).then((result) => {
+      if (!result) {;
+        res.status(404).send('nie ma nic')
+      }
+      res.status(200).send(result);
+      // res.redirect('/');
+    }).catch((err) => {
+      console.log(err);
+    });
+});
+
+app.listen(port, () => {
+    console.log(`Server is up on port 3000 ${port}`);
 });
 
 module.exports = {app};
