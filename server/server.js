@@ -1,9 +1,22 @@
-let env = process.env.NODE_ENV || 'development';
+
+var env = process.env.NODE_ENV || 'development';
+console.log('env *****', env);
+if( env === 'development') {
+  process.env.PORT = 3000;
+  process.env.MONGODB_URI = 'mongodb://localhost:27017/TodoApp';
+} else if( env === 'test') {
+  process.env.PORT = 3000;
+  process.env.MONGODB_URI = 'mongodb://localhost:27017/TodoApp';
+} else if( env === 'production' ) {
+  process.env.MONGODB_URI = 'mongodb://SentientBreath:lorien117.@ds147052.mlab.com:47052/todos'
+}
+
 
 let mongoose = require('mongoose');
-mongoose.Promise = global.Promise;
-// let mongodb_uri = 'mongodb://SentientBreath:lorien117@ds147052.mlab.com:47052/todos';
 
+// let mongodb_uri = 'mongodb://SentientBreath:lorien117@ds147052.mlab.com:47052/todos';
+mongoose.Promise = global.Promise;
+mongoose.connect( process.env.MONGODB_URI );
 const express = require('express');
 
 let {Todo} = require('./models/todo');
@@ -100,7 +113,7 @@ app.patch('/todos/:id', (req, res) => {
 });
 
 app.listen(port, () => {
-    console.log(`Server is up on port 3000 ${port}`);
+    console.log(`Server is up on port ${port}`);
 });
 
 module.exports = {app};
