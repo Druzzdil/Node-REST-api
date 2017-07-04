@@ -3,7 +3,6 @@ let env = process.env.NODE_ENV || 'development';
 let mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 let mongodb_uri = 'mongodb://SentientBreath:lorien117@ds147052.mlab.com:47052/todos';
-mongoose.connect(uri);
 
 const express = require('express');
 
