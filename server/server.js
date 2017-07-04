@@ -15,7 +15,7 @@ let mongoose = require('mongoose');
 
 let mongodb_uri = 'mongodb://igor:lorien117@ds147052.mlab.com:47052/todos';
 mongoose.Promise = global.Promise;
-MongoClient.connect( process.env.MONGODB_URI );
+mongoose.connect( process.env.MONGODB_URI );
 const express = require('express');
 
 let {Todo} = require('./models/todo');
