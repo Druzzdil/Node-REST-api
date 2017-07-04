@@ -11,12 +11,11 @@ if( env === 'development') {
   process.env.MONGODB_URI = 'mongodb://SentientBreath:lorien117.@ds147052.mlab.com:47052/todos'
 }
 
-
 let mongoose = require('mongoose');
 
-// let mongodb_uri = 'mongodb://SentientBreath:lorien117@ds147052.mlab.com:47052/todos';
+let mongodb_uri = 'mongodb://SentientBreath:lorien117@ds147052.mlab.com:47052/todos';
 mongoose.Promise = global.Promise;
-mongoose.connect( process.env.MONGODB_URI );
+MongoClient.connect( process.env.MONGODB_URI );
 const express = require('express');
 
 let {Todo} = require('./models/todo');
