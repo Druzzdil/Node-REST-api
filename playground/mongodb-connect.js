@@ -1,10 +1,11 @@
 
 const {MongoClient, ObjectID} = require('mongodb');
-let mongoose = require('mongoose');
+const mongoose = require('mongoose');
+const express = require('express');
 mongoose.Promise = global.Promise;
-MongoClient.connect('mongodb://localhost:27017/TodoApp', (err, db )=>{
+MongoClient.connect('mongodb://igor:lorien117@ds147052.mlab.com:47052/todos', (err, db )=>{
     if(err){
-       return console.log('unable to mongodb server');
+       return console.log('unable to log into mongodb server');
     }
     console.log('connected to mongodb');
     db.collection('todos').insertOne({
