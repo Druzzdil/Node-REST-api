@@ -4,15 +4,13 @@ let env = process.env.NODE_ENV || 'development';
 
 console.log('env *****', env);
 
-if( env === 'development') {
-  process.env.PORT = 3000;
-  process.env.MONGODB_URI = 'mongodb://localhost:27017/TodoApp';
-} else if( env === 'test') {
-  process.env.PORT = 3000;
-  process.env.MONGODB_URI = 'mongodb://localhost:27017/TodoApp';
-} else if( env === 'production' ) {
-  process.env.MONGODB_URI = 'mongodb://igor:lorien117@ds147052.mlab.com:47052/todos'
-}
+  if( env === 'development'){
+    process.env.PORT = 3000;
+    process.env.MONGODB_URI = 'mongodb://localhost:27017/TodoApp';
+  } else if ( env === 'production'){
+    process.env.MONGODB_URI = 'mongodb://igor:lorien117@ds147052.mlab.com:47052/todos';
+  };
+
 
 const express = require('express');
 mongoose.Promise = global.Promise;
@@ -26,11 +24,6 @@ const port = process.env.PORT || 3000;
 let app = express();
 const bodyParser = require('body-parser');
 
-// hbs.registerPartials(__dirname + '/views/partials');
-// app.set('view engine', 'html');
-// app.use('/assets/', express.static('assets'));
-// app.use('/public/', express.static('public'));
-
 app.use(bodyParser.json());
 app.post('/todos', (req, res)=>{
     let todo = new Todo({
@@ -43,7 +36,6 @@ app.post('/todos', (req, res)=>{
     });
 });
 
-
 app.get('/todos', function(req,res){
     Todo.find().then((todos) => {
       res.send(todos);
@@ -51,7 +43,6 @@ app.get('/todos', function(req,res){
       console.log(' an error occured', error);
     });
 });
-
 
 app.get('/todos/:id', (req,res)=>{
   let id = req.params.id;
@@ -68,9 +59,6 @@ app.get('/todos/:id', (req,res)=>{
     console.log(err, 'dupa nie ma nic');
   });
 });
-
-//delete method
-
 
 app.delete('/todos/:id', (req, res)=>{
     let id = req.params.id;
@@ -89,8 +77,8 @@ app.delete('/todos/:id', (req, res)=>{
 });
 
 app.patch('/todos/:id', (req, res) => {
-  var id = req.params.id;
-  var body = _.pick(req.body, ['text', 'completed']);
+  let id = req.params.id;
+  let body = _.pick(req.body, ['text', 'completed']);
   if (!ObjectID.isValid(id)) {
     return res.status(404).send();
   }
@@ -108,6 +96,16 @@ app.patch('/todos/:id', (req, res) => {
   }).catch((e) => {
     res.status(400).send();
   });
+});
+
+app.post('/users', (req, res)=>{
+  let body = _.pick(req.body, ['email', 'password']);
+  let user = new User(body);
+  user.save().then((user) => {
+    res.send(user);
+  }).catch((err) => {
+    res.status(400).send(err);
+  })
 });
 
 app.listen(port, () => {

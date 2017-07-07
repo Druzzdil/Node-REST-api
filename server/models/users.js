@@ -1,9 +1,6 @@
-let mongoose = require('mongoose');
-let validateEmail = function(email) {
-    let re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    return re.test(email);
-};
-
+const mongoose = require('mongoose');
+const validator = require('validator');
+mongoose.set('debug', true);
 let User = mongoose.model('User', {
     email: {
         type: String,
@@ -11,8 +8,25 @@ let User = mongoose.model('User', {
         minlength :3,
         trim: true,
         unique: true,
-        validate: [validateEmail, 'Please fill a valid email address'],
-        match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please fill a valid email address']
-    }
+        validate: {
+          validator: validator.isEmail,
+          message: '{VALUE} is not a valid email!'
+        }
+      },
+      password: {
+        type: String,
+        minlength: 6,
+        require: true,
+      },
+      tokens: [{
+        access: {
+          type: String,
+          required: true
+        },
+        token: {
+          type: String,
+          required: true
+        }
+      }]
 });
 module.exports = {User};
