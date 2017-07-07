@@ -1,6 +1,9 @@
+const mongoose = require('mongoose');
 
-var env = process.env.NODE_ENV || 'development';
+let env = process.env.NODE_ENV || 'development';
+
 console.log('env *****', env);
+
 if( env === 'development') {
   process.env.PORT = 3000;
   process.env.MONGODB_URI = 'mongodb://localhost:27017/TodoApp';
@@ -11,13 +14,9 @@ if( env === 'development') {
   process.env.MONGODB_URI = 'mongodb://igor:lorien117@ds147052.mlab.com:47052/todos'
 }
 
-let mongoose = require('mongoose');
-
-let mongodb_uri = 'mongodb://igor:lorien117@ds147052.mlab.com:47052/todos';
+const express = require('express');
 mongoose.Promise = global.Promise;
 mongoose.connect( process.env.MONGODB_URI );
-const express = require('express');
-
 let {Todo} = require('./models/todo');
 let {User} = require('./models/users');
 const {ObjectID} = require('mongodb');
@@ -79,7 +78,7 @@ app.delete('/todos/:id', (req, res)=>{
         return res.status(404).send();
     };
     Todo.findByIdAndRemove(id).then((result) => {
-      if (!result) {;
+      if (!result) {
         res.status(404).send('nie ma nic')
       }
       res.status(200).send(result);
@@ -108,7 +107,7 @@ app.patch('/todos/:id', (req, res) => {
     res.send({todo});
   }).catch((e) => {
     res.status(400).send();
-  })
+  });
 });
 
 app.listen(port, () => {
