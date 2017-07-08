@@ -15,6 +15,10 @@ console.log(token, ' this is token --------------------');
 
 
 //generujemy token dla uzytkownia po _id
+// odbywa sie to w modelu uzytkownia -- users.js
+// user.tokens.push({access, token})
+//  return
+// })
 
 
 
