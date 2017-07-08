@@ -1,18 +1,17 @@
-const {SHA256} = require('crypto-js');
 const jwt = require('jsonwebtoken');
+var bcrypt = require('bcryptjs');
 
+let password = 'abc123';
+// bcrypt.genSalt(10, function(err, salt) {
+//     bcrypt.hash(password, salt, function(err, hash) {
+//         console.log(hash, 'this is it');
+//     });
+// });
 
-let data = {
-  id: 10
-}
-
-let token = jwt.sign(data, 'secret').toString();
-console.log(token, ' this is token --------------------');
-// let token = jwt.sign(data, 'abc');
-// console.log(token);
-// jwt.verify
-
-
+let hashedPassword = '$2a$10$y.lLOp/mReezxQN4iOf83OTGeDEukYpgenOZg3fUJeabT/7A5cSZ6';
+bcrypt.compare(password, hashedPassword, (err,res)=>{
+  console.log(res, 'finall');
+});
 
 //generujemy token dla uzytkownia po _id
 // odbywa sie to w modelu uzytkownia -- users.js
